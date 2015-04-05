@@ -1,0 +1,65 @@
+#-*- coding: utf-8 -*-
+
+################################################################
+##
+#   Copyright (c) 2015 김준형 (Kim, Jun-hyung)
+#
+#   jh81.kim@lge.com
+#   ghilbut@gmail.com
+#
+#   All rights reserved
+#
+#   This is prepared for TDD class
+#   of LG Electronics freshmen employee
+#   in 2 April 2015.
+#
+##
+################################################################
+
+import os
+
+def abspath(basepath, relpath):
+  return os.path.abspath(os.path.join(basepath, relpath))
+
+# get current directory path
+this_sconscript_file = (lambda x:x).func_code.co_filename
+ROOTPATH = os.path.dirname(this_sconscript_file)
+
+# set gmock include paths
+CPPPATH = [
+  abspath(ROOTPATH, '../gmock-1.7.0/gtest/include'),
+  abspath(ROOTPATH, '../gmock-1.7.0/gtest'),
+  abspath(ROOTPATH, '../gmock-1.7.0/include'),
+  abspath(ROOTPATH, '../gmock-1.7.0')]
+# set gmock source files
+sources = [
+  abspath(ROOTPATH, '../gmock-1.7.0/gtest/src/gtest-all.cc'),
+  abspath(ROOTPATH, '../gmock-1.7.0/src/gmock-all.cc'),
+  abspath(ROOTPATH, 'test.cpp')]
+
+project_path = abspath(ROOTPATH, '../src')
+# set project include path
+CPPPATH.append(project_path)
+# set project source files
+sources.append(Glob(os.path.join(project_path, '*.c*')))
+for root, dirs, files in os.walk(project_path):
+  for dirname in dirs:
+    dirpath = abspath(root, dirname)
+    sources.append(Glob(os.path.join(dirpath, '*.c*')))
+
+# set build environment
+env = Environment(CPPPATH=CPPPATH)
+if os.name == 'posix':
+  # if not microsoft windows
+  env.Append(LINKFLAGS=['-pthread'])
+
+# build
+test = env.Program(source=sources, target='test')
+
+# run after build complete
+def run_unitest(env, target, source):
+  # unix, linux, mac  : 'clear'
+  # microsoft windows : 'CLS'
+  os.system('clear' if os.name is 'posix' else 'CLS')
+  os.system(source[0].abspath)
+Command('unittest', test, run_unitest)

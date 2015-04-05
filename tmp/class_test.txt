@@ -1,0 +1,54 @@
+#include "gmock/gmock.h"
+
+class aa_test : public ::testing::Test {
+protected:
+	virtual void SetUp() {
+		
+	}
+
+	virtual void TearDown() {
+		
+	}
+
+protected:
+	static const int kPort = 80;
+
+};
+
+
+class WebSocketClient {
+	
+
+public:
+	WebSocketClient() {
+		
+	}
+
+	~WebSocketClient() {
+
+	}
+
+	void Connect(const std::string& uri) {
+		
+	}
+
+	void Close() {
+
+	}
+
+
+private:
+
+	static void on_message() {
+		
+	}
+
+
+private:
+	
+};
+
+
+TEST_F(aa_test, running_status_validation_test) {
+	
+}
