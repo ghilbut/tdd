@@ -18,6 +18,10 @@
 
 import os
 
+# unix, linux, mac  : 'clear'
+# microsoft windows : 'CLS'
+os.system('clear' if os.name is 'posix' else 'CLS')
+
 def abspath(basepath, relpath):
   return os.path.abspath(os.path.join(basepath, relpath))
 
@@ -58,8 +62,5 @@ test = env.Program(source=sources, target='test')
 
 # run after build complete
 def run_unitest(env, target, source):
-  # unix, linux, mac  : 'clear'
-  # microsoft windows : 'CLS'
-  os.system('clear' if os.name is 'posix' else 'CLS')
   os.system(source[0].abspath)
 Command('unittest', test, run_unitest)

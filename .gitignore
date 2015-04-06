@@ -27,5 +27,8 @@
 *.out
 *.app
 
+# vi
+**.swp
+
 # scons
 .sconsign.dblite
